@@ -1,20 +1,12 @@
-import requests
 from flask import Flask, render_template
+import github_api
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 
 @app.route('/')
-
-def get_stars_github():
-    r = requests.get('https://api.github.com/repos/portabilis/i-educar')
-
-    content = r.json()
-    stars = content['stargazers_count']
-
-    return stars
-
-def main():
-    
+def stars_ieducar():
+    stars = github_api.get_stars_github()
+    return render_template('simple-page.html', value=stars)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)
